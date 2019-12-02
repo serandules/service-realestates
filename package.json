@@ -13,7 +13,7 @@
     "async": "1.*",
     "node-uuid": "1.*",
     "express": "4.*",
-    "lodash": "4.17.4",
+    "lodash": "4.17.15",
     "temp": "0.8.3",
     "logger": "serandules/logger#master",
     "utils": "serandules/utils#master",
