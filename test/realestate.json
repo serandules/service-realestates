@@ -1,0 +1,18 @@
+{
+  "location": "59417b1220873e577df88aa2",
+  "contact": "59417b1220873e577df88aa2",
+  "type": "house",
+  "title": "Luxury House for Sale in Pannipitiya",
+  "residential": true,
+  "commercial": true,
+  "offer": "sell",
+  "extent": 20.5,
+  "area": 100.5,
+  "floors": 2,
+  "bedrooms": 4,
+  "bathrooms": 4,
+  "parking": 10,
+  "description": "",
+  "price": 6000000,
+  "currency": "LKR"
+}

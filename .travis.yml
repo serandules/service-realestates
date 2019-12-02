@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - "node"
+env:
+  global:
+    - CXX=g++-4.8
+    - ENV=travis
+addons:
+  hosts:
+    - travis.serandives.com
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+services:
+  - mongodb
+  - redis-server
