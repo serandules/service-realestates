@@ -97,9 +97,6 @@ describe('POST /realestates', function () {
     offer: {
       invalid: 'dummy'
     },
-    extent: {
-      invalid: 'dummy'
-    },
     price: {
       invalid: 'dummy'
     },

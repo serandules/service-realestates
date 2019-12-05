@@ -989,7 +989,7 @@ describe('GET /realestates', function () {
         async.each(b, function (v, ran) {
           should.exist(v.user);
           v.user.should.equal(client.users[3].profile.id);
-          pot.transit('autos', 'realestates', v.id, client.users[3].token, 'review', ran);
+          pot.transit('realestates', 'realestates', v.id, client.users[3].token, 'review', ran);
         }, function (err) {
           if (err) {
             return done(err);

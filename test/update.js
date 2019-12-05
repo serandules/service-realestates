@@ -125,7 +125,6 @@ describe('PUT /realestates/:id', function () {
     'contact',
     'type',
     'offer',
-    'extent',
     'price',
     'currency'
   ];
