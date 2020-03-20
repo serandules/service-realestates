@@ -15,6 +15,7 @@
     "express": "4.*",
     "lodash": "4.17.4",
     "temp": "0.8.3",
+    "nconf": "0.10.0",
     "logger": "serandules/logger#master",
     "utils": "serandules/utils#master",
     "model": "serandules/model#master",
