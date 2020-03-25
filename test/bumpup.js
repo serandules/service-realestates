@@ -5,7 +5,7 @@ var should = require('should');
 var request = require('request');
 var pot = require('pot');
 var realestates = require('./realestates');
-var Vehicles = require('model-realestates');
+var RealEstates = require('model-realestates');
 
 var BUMP_UP_THRESHOLD = 14 * 24 * 60 * 60 * 1000;
 
@@ -13,7 +13,7 @@ var data = require('./realestate.json');
 
 describe('POST /realestates/:id (bumpup)', function () {
   var client;
-  var vehicle;
+  var realEstate;
   var image;
   before(function (done) {
     pot.client(function (err, c) {
@@ -26,11 +26,11 @@ describe('POST /realestates/:id (bumpup)', function () {
           return done(err);
         }
         image = id;
-        create(client.users[0], function (err, v) {
+        create(client.users[0], function (err, re) {
           if (err) {
             return done(err);
           }
-          vehicle = v;
+          realEstate = re;
           done();
         });
       });
@@ -79,7 +79,7 @@ describe('POST /realestates/:id (bumpup)', function () {
 
   it('bump up by an authorized user (too early)', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates/' + vehicle.id),
+      uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
       method: 'POST',
       auth: {
         bearer: client.users[0].token
@@ -92,22 +92,22 @@ describe('POST /realestates/:id (bumpup)', function () {
       if (e) {
         return done(e);
       }
-      r.statusCode.should.equal(errors.forbidden().status);
+      r.statusCode.should.equal(errors.notFound().status);
       should.exist(b);
       should.exist(b.code);
       should.exist(b.message);
-      b.code.should.equal(errors.forbidden().data.code);
+      b.code.should.equal(errors.notFound().data.code);
       done();
     });
   });
 
   it('bump up by an unauthorized user', function (done) {
-    Vehicles.update({_id: vehicle.id}, {updatedAt: Date.now() - BUMP_UP_THRESHOLD}, function (err) {
+    RealEstates.update({_id: realEstate.id}, {updatedAt: Date.now() - BUMP_UP_THRESHOLD}, function (err) {
       if (err) {
         return done(err);
       }
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates/' + vehicle.id),
+        uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
         method: 'POST',
         auth: {
           bearer: client.users[1].token
@@ -132,12 +132,12 @@ describe('POST /realestates/:id (bumpup)', function () {
 
 
   it('bump up by an authorized user', function (done) {
-    Vehicles.update({_id: vehicle.id}, {updatedAt: Date.now() - BUMP_UP_THRESHOLD}, function (err) {
+    RealEstates.update({_id: realEstate.id}, {updatedAt: Date.now() - BUMP_UP_THRESHOLD}, function (err) {
       if (err) {
         return done(err);
       }
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates/' + vehicle.id),
+        uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
         method: 'POST',
         auth: {
           bearer: client.users[0].token
@@ -150,18 +150,109 @@ describe('POST /realestates/:id (bumpup)', function () {
         if (e) {
           return done(e);
         }
-        r.statusCode.should.equal(200);
+        r.statusCode.should.equal(errors.notFound().status);
         should.exist(b);
-        should.exist(b.id);
-        should.exist(b.user);
-        b.id.should.equal(vehicle.id);
-        b.user.should.equal(vehicle.user);
-        console.log(new Date())
-        console.log(b.updatedAt)
-        var diff = new Date() - new Date(b.updatedAt);
-        console.log(diff)
-        diff.should.be.below(2000);
+        should.exist(b.code);
+        should.exist(b.message);
+        b.code.should.equal(errors.notFound().data.code);
         done();
+      });
+    });
+  });
+
+  describe('bump up on published real estate', function () {
+
+    before(function (done) {
+      pot.publish('realestates', 'realestates', realEstate.id, client.users[0].token, client.admin.token, done);
+    });
+
+    it('bump up by an authorized user (too early)', function (done) {
+      RealEstates.update({_id: realEstate.id}, {updatedAt: Date.now()}, function (err) {
+        if (err) {
+          return done(err);
+        }
+        request({
+          uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+          method: 'POST',
+          auth: {
+            bearer: client.users[0].token
+          },
+          headers: {
+            'X-Action': 'bumpup'
+          },
+          json: true
+        }, function (e, r, b) {
+          if (e) {
+            return done(e);
+          }
+          r.statusCode.should.equal(errors.forbidden().status);
+          should.exist(b);
+          should.exist(b.code);
+          should.exist(b.message);
+          b.code.should.equal(errors.forbidden().data.code);
+          done();
+        });
+      });
+    });
+
+    it('bump up by an unauthorized user', function (done) {
+      RealEstates.update({_id: realEstate.id}, {updatedAt: Date.now() - BUMP_UP_THRESHOLD}, function (err) {
+        if (err) {
+          return done(err);
+        }
+        request({
+          uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+          method: 'POST',
+          auth: {
+            bearer: client.users[1].token
+          },
+          headers: {
+            'X-Action': 'bumpup'
+          },
+          json: true
+        }, function (e, r, b) {
+          if (e) {
+            return done(e);
+          }
+          r.statusCode.should.equal(errors.notFound().status);
+          should.exist(b);
+          should.exist(b.code);
+          should.exist(b.message);
+          b.code.should.equal(errors.notFound().data.code);
+          done();
+        });
+      });
+    });
+
+    it('by an authorized user', function (done) {
+      RealEstates.update({_id: realEstate.id}, {updatedAt: Date.now() - BUMP_UP_THRESHOLD}, function (err) {
+        if (err) {
+          return done(err);
+        }
+        request({
+          uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+          method: 'POST',
+          auth: {
+            bearer: client.users[0].token
+          },
+          headers: {
+            'X-Action': 'bumpup'
+          },
+          json: true
+        }, function (e, r, b) {
+          if (e) {
+            return done(e);
+          }
+          r.statusCode.should.equal(200);
+          should.exist(b);
+          should.exist(b.id);
+          should.exist(b.user);
+          b.id.should.equal(realEstate.id);
+          b.user.should.equal(realEstate.user);
+          var diff = new Date() - new Date(b.updatedAt);
+          diff.should.be.below(5000);
+          done();
+        });
       });
     });
   });
