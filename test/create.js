@@ -41,7 +41,7 @@ describe('POST /realestates', function () {
 
   it('with no media type', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'POST',
       auth: {
         bearer: client.users[0].token
@@ -62,7 +62,7 @@ describe('POST /realestates', function () {
 
   it('with unsupported media type', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'POST',
       headers: {
         'Content-Type': 'application/xml'
@@ -108,7 +108,7 @@ describe('POST /realestates', function () {
   Object.keys(fields).forEach(function (field) {
     it('without ' + field, function (done) {
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates'),
+        uri: pot.resolve('apis', '/v/realestates'),
         method: 'POST',
         json: payload([field]),
         auth: {
@@ -131,7 +131,7 @@ describe('POST /realestates', function () {
       var o = payload([field]);
       o[field] = fields[field].invalid;
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates'),
+        uri: pot.resolve('apis', '/v/realestates'),
         method: 'POST',
         json: o,
         auth: {
@@ -153,7 +153,7 @@ describe('POST /realestates', function () {
 
   it('with valid fields', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'POST',
       auth: {
         bearer: client.users[0].token
@@ -176,7 +176,7 @@ describe('POST /realestates', function () {
         id.should.String();
       });
       should.exist(r.headers['location']);
-      r.headers['location'].should.equal(pot.resolve('realestates', '/apis/v/realestates/' + b.id));
+      r.headers['location'].should.equal(pot.resolve('apis', '/v/realestates/' + b.id));
       done();
     });
   });
@@ -185,7 +185,7 @@ describe('POST /realestates', function () {
     var data = payload();
     data.mileage = 0;
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'POST',
       auth: {
         bearer: client.users[0].token
@@ -208,7 +208,7 @@ describe('POST /realestates', function () {
         id.should.String();
       });
       should.exist(r.headers['location']);
-      r.headers['location'].should.equal(pot.resolve('realestates', '/apis/v/realestates/' + b.id));
+      r.headers['location'].should.equal(pot.resolve('apis', '/v/realestates/' + b.id));
       done();
     });
   });

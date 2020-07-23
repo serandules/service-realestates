@@ -47,7 +47,7 @@ describe('PUT /realestates/:id', function () {
 
   var create = function (user, done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'POST',
       auth: {
         bearer: user.token
@@ -70,14 +70,14 @@ describe('PUT /realestates/:id', function () {
         id.should.String();
       });
       should.exist(r.headers['location']);
-      r.headers['location'].should.equal(pot.resolve('realestates', '/apis/v/realestates/' + b.id));
+      r.headers['location'].should.equal(pot.resolve('apis', '/v/realestates/' + b.id));
       done(null, b);
     });
   };
 
   it('with no media type', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates/' + realestate.id),
+      uri: pot.resolve('apis', '/v/realestates/' + realestate.id),
       method: 'PUT',
       auth: {
         bearer: client.users[0].token
@@ -98,7 +98,7 @@ describe('PUT /realestates/:id', function () {
 
   it('with unsupported media type', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates/' + realestate.id),
+      uri: pot.resolve('apis', '/v/realestates/' + realestate.id),
       method: 'PUT',
       headers: {
         'Content-Type': 'application/xml'
@@ -132,7 +132,7 @@ describe('PUT /realestates/:id', function () {
   fields.forEach(function (field) {
     it('without ' + field, function (done) {
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates/' + realestate.id),
+        uri: pot.resolve('apis', '/v/realestates/' + realestate.id),
         method: 'PUT',
         json: payload([field]),
         auth: {
@@ -157,7 +157,7 @@ describe('PUT /realestates/:id', function () {
     v0.images.push(image);
     v0.images.push(image);
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates/' + realestate.id),
+      uri: pot.resolve('apis', '/v/realestates/' + realestate.id),
       method: 'PUT',
       auth: {
         bearer: client.users[0].token
@@ -186,10 +186,10 @@ describe('PUT /realestates/:id', function () {
         v1.images.indexOf(id).should.not.equal(-1);
       });
       should.exist(r.headers['location']);
-      r.headers['location'].should.equal(pot.resolve('realestates', '/apis/v/realestates/' + v1.id));
+      r.headers['location'].should.equal(pot.resolve('apis', '/v/realestates/' + v1.id));
       v1.images = [image, image];
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates/' + realestate.id),
+        uri: pot.resolve('apis', '/v/realestates/' + realestate.id),
         method: 'PUT',
         auth: {
           bearer: client.users[0].token
@@ -215,7 +215,7 @@ describe('PUT /realestates/:id', function () {
           id.should.String();
         });
         should.exist(r.headers['location']);
-        r.headers['location'].should.equal(pot.resolve('realestates', '/apis/v/realestates/' + v2.id));
+        r.headers['location'].should.equal(pot.resolve('apis', '/v/realestates/' + v2.id));
         done();
       });
     });
@@ -224,7 +224,7 @@ describe('PUT /realestates/:id', function () {
   it('by unauthorized user', function (done) {
     var v0 = _.cloneDeep(realestate);
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates/' + realestate.id),
+      uri: pot.resolve('apis', '/v/realestates/' + realestate.id),
       method: 'PUT',
       auth: {
         bearer: client.users[1].token
@@ -246,7 +246,7 @@ describe('PUT /realestates/:id', function () {
   it('invalid id', function (done) {
     var v0 = _.cloneDeep(realestate);
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates/invalid'),
+      uri: pot.resolve('apis', '/v/realestates/invalid'),
       method: 'PUT',
       auth: {
         bearer: client.users[1].token
@@ -268,7 +268,7 @@ describe('PUT /realestates/:id', function () {
   it('by an authorized user', function (done) {
     var v0 = _.cloneDeep(realestate);
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates/' + realestate.id),
+      uri: pot.resolve('apis', '/v/realestates/' + realestate.id),
       method: 'PUT',
       auth: {
         bearer: client.admin.token

@@ -5,7 +5,7 @@ var should = require('should');
 
 exports.image = function (token, done) {
   request({
-    uri: pot.resolve('www', '/apis/v/binaries'),
+    uri: pot.resolve('apis', '/v/binaries'),
     method: 'POST',
     formData: {
       data: JSON.stringify({
@@ -29,7 +29,7 @@ exports.image = function (token, done) {
     b.type.should.equal('image');
     b.content.should.equal(b.id);
     should.exist(r.headers['location']);
-    r.headers['location'].should.equal(pot.resolve('www', '/apis/v/binaries/' + b.id));
+    r.headers['location'].should.equal(pot.resolve('apis', '/v/binaries/' + b.id));
     done(null, b.id);
   });
 };

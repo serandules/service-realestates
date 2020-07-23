@@ -49,7 +49,7 @@ describe('POST /realestates/:id (bumpup)', function () {
 
   var create = function (user, done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'POST',
       auth: {
         bearer: user.token
@@ -72,14 +72,14 @@ describe('POST /realestates/:id (bumpup)', function () {
         id.should.String();
       });
       should.exist(r.headers['location']);
-      r.headers['location'].should.equal(pot.resolve('realestates', '/apis/v/realestates/' + b.id));
+      r.headers['location'].should.equal(pot.resolve('apis', '/v/realestates/' + b.id));
       done(null, b);
     });
   };
 
   it('bump up by an authorized user (too early)', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+      uri: pot.resolve('apis', '/v/realestates/' + realEstate.id),
       method: 'POST',
       auth: {
         bearer: client.users[0].token
@@ -107,7 +107,7 @@ describe('POST /realestates/:id (bumpup)', function () {
         return done(err);
       }
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+        uri: pot.resolve('apis', '/v/realestates/' + realEstate.id),
         method: 'POST',
         auth: {
           bearer: client.users[1].token
@@ -137,7 +137,7 @@ describe('POST /realestates/:id (bumpup)', function () {
         return done(err);
       }
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+        uri: pot.resolve('apis', '/v/realestates/' + realEstate.id),
         method: 'POST',
         auth: {
           bearer: client.users[0].token
@@ -163,7 +163,7 @@ describe('POST /realestates/:id (bumpup)', function () {
   describe('bump up on published real estate', function () {
 
     before(function (done) {
-      pot.publish('realestates', 'realestates', realEstate.id, client.users[0].token, client.admin.token, done);
+      pot.publish('realestates', realEstate.id, client.users[0].token, client.admin.token, done);
     });
 
     it('bump up by an authorized user (too early)', function (done) {
@@ -172,7 +172,7 @@ describe('POST /realestates/:id (bumpup)', function () {
           return done(err);
         }
         request({
-          uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+          uri: pot.resolve('apis', '/v/realestates/' + realEstate.id),
           method: 'POST',
           auth: {
             bearer: client.users[0].token
@@ -201,7 +201,7 @@ describe('POST /realestates/:id (bumpup)', function () {
           return done(err);
         }
         request({
-          uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+          uri: pot.resolve('apis', '/v/realestates/' + realEstate.id),
           method: 'POST',
           auth: {
             bearer: client.users[1].token
@@ -230,7 +230,7 @@ describe('POST /realestates/:id (bumpup)', function () {
           return done(err);
         }
         request({
-          uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+          uri: pot.resolve('apis', '/v/realestates/' + realEstate.id),
           method: 'POST',
           auth: {
             bearer: client.users[0].token

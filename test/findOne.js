@@ -73,7 +73,7 @@ describe('GET /realestates/:id', function () {
       realEstate.price = 1000 * (count + 1);
       realEstate.location = location.id;
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates'),
+        uri: pot.resolve('apis', '/v/realestates'),
         method: 'POST',
         auth: {
           bearer: user.token
@@ -89,7 +89,7 @@ describe('GET /realestates/:id', function () {
         should.exist(b.type);
         b.type.should.equal('house');
         should.exist(r.headers['location']);
-        r.headers['location'].should.equal(pot.resolve('realestates', '/apis/v/realestates/' + b.id));
+        r.headers['location'].should.equal(pot.resolve('apis', '/v/realestates/' + b.id));
         created();
       });
     }, done);
@@ -108,7 +108,7 @@ describe('GET /realestates/:id', function () {
 
   it('invalid id', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates/undefined'),
+      uri: pot.resolve('apis', '/v/realestates/undefined'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -129,7 +129,7 @@ describe('GET /realestates/:id', function () {
 
   it('owner can access', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -145,7 +145,7 @@ describe('GET /realestates/:id', function () {
       b.length.should.equal(1);
       validateRealEstates(b);
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates/' + b[0].id),
+        uri: pot.resolve('apis', '/v/realestates/' + b[0].id),
         method: 'GET',
         auth: {
           bearer: client.users[0].token
@@ -165,7 +165,7 @@ describe('GET /realestates/:id', function () {
 
   it('others cannot access', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -181,7 +181,7 @@ describe('GET /realestates/:id', function () {
       b.length.should.equal(1);
       validateRealEstates(b);
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates/' + b[0].id),
+        uri: pot.resolve('apis', '/v/realestates/' + b[0].id),
         method: 'GET',
         auth: {
           bearer: client.users[1].token
@@ -203,7 +203,7 @@ describe('GET /realestates/:id', function () {
 
   it('can be accessed by anyone when public', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -220,7 +220,7 @@ describe('GET /realestates/:id', function () {
       validateRealEstates(b);
       var realEstate = b[0];
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+        uri: pot.resolve('apis', '/v/realestates/' + realEstate.id),
         method: 'GET',
         auth: {
           bearer: client.users[1].token
@@ -236,7 +236,7 @@ describe('GET /realestates/:id', function () {
         should.exist(b.message);
         b.code.should.equal(errors.notFound().data.code);
         request({
-          uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+          uri: pot.resolve('apis', '/v/realestates/' + realEstate.id),
           method: 'GET',
           auth: {
             bearer: client.users[1].token
@@ -251,12 +251,12 @@ describe('GET /realestates/:id', function () {
           should.exist(b.code);
           should.exist(b.message);
           b.code.should.equal(errors.notFound().data.code);
-          pot.publish('autos', 'realestates', realEstate.id, client.users[0].token, client.admin.token, function (err) {
+          pot.publish('realestates', realEstate.id, client.users[0].token, client.admin.token, function (err) {
             if (err) {
               return done(err);
             }
             request({
-              uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+              uri: pot.resolve('apis', '/v/realestates/' + realEstate.id),
               method: 'GET',
               auth: {
                 bearer: client.users[1].token
@@ -270,7 +270,7 @@ describe('GET /realestates/:id', function () {
               should.exist(b);
               validateRealEstates([b]);
               request({
-                uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+                uri: pot.resolve('apis', '/v/realestates/' + realEstate.id),
                 method: 'GET',
                 auth: {
                   bearer: client.users[2].token
@@ -284,7 +284,7 @@ describe('GET /realestates/:id', function () {
                 should.exist(b);
                 validateRealEstates([b]);
                 request({
-                  uri: pot.resolve('realestates', '/apis/v/realestates'),
+                  uri: pot.resolve('apis', '/v/realestates'),
                   method: 'GET',
                   auth: {
                     bearer: client.users[2].token
@@ -307,7 +307,7 @@ describe('GET /realestates/:id', function () {
                   should.exist(b.message);
                   b.code.should.equal(errors.unprocessableEntity().data.code);
                   request({
-                    uri: pot.resolve('realestates', '/apis/v/realestates'),
+                    uri: pot.resolve('apis', '/v/realestates'),
                     method: 'GET',
                     auth: {
                       bearer: client.users[2].token
@@ -330,7 +330,7 @@ describe('GET /realestates/:id', function () {
                     should.exist(b.message);
                     b.code.should.equal(errors.unprocessableEntity().data.code);
                     request({
-                      uri: pot.resolve('realestates', '/apis/v/realestates'),
+                      uri: pot.resolve('apis', '/v/realestates'),
                       method: 'GET',
                       auth: {
                         bearer: client.users[2].token
@@ -353,7 +353,7 @@ describe('GET /realestates/:id', function () {
                       should.exist(b.message);
                       b.code.should.equal(errors.unprocessableEntity().data.code);
                       request({
-                        uri: pot.resolve('realestates', '/apis/v/realestates'),
+                        uri: pot.resolve('apis', '/v/realestates'),
                         method: 'GET',
                         auth: {
                           bearer: client.users[2].token
@@ -375,7 +375,7 @@ describe('GET /realestates/:id', function () {
                         should.exist(b);
                         b.length.should.equal(1);
                         request({
-                          uri: pot.resolve('realestates', '/apis/v/realestates'),
+                          uri: pot.resolve('apis', '/v/realestates'),
                           method: 'GET',
                           auth: {
                             bearer: client.users[2].token

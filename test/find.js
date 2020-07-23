@@ -59,7 +59,7 @@ describe('GET /realestates', function () {
       var realEstate = payload();
       realEstate.price = 1000 * (count + 1);
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates'),
+        uri: pot.resolve('apis', '/v/realestates'),
         method: 'POST',
         auth: {
           bearer: user.token
@@ -75,7 +75,7 @@ describe('GET /realestates', function () {
         should.exist(b.type);
         b.type.should.equal('house');
         should.exist(r.headers['location']);
-        r.headers['location'].should.equal(pot.resolve('realestates', '/apis/v/realestates/' + b.id));
+        r.headers['location'].should.equal(pot.resolve('apis', '/v/realestates/' + b.id));
         created();
       });
     }, done);
@@ -132,7 +132,7 @@ describe('GET /realestates', function () {
 
   it('default paging', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -148,7 +148,7 @@ describe('GET /realestates', function () {
       b.length.should.equal(20);
       validateRealEstates(b);
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates'),
+        uri: pot.resolve('apis', '/v/realestates'),
         method: 'GET',
         auth: {
           bearer: client.users[0].token
@@ -176,7 +176,7 @@ describe('GET /realestates', function () {
 
   it('by price paging', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -208,7 +208,7 @@ describe('GET /realestates', function () {
       });
       findFirstPages(r);
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates'),
+        uri: pot.resolve('apis', '/v/realestates'),
         method: 'GET',
         auth: {
           bearer: client.users[0].token
@@ -246,7 +246,7 @@ describe('GET /realestates', function () {
 
   it('by price and updatedAt ascending paging', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -334,7 +334,7 @@ describe('GET /realestates', function () {
 
   it('by price and updatedAt descending paging', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -422,7 +422,7 @@ describe('GET /realestates', function () {
 
   it('filter by price', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -460,7 +460,7 @@ describe('GET /realestates', function () {
         previous.price.should.be.aboveOrEqual(current.price);
       });
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates'),
+        uri: pot.resolve('apis', '/v/realestates'),
         method: 'GET',
         auth: {
           bearer: client.users[0].token
@@ -504,7 +504,7 @@ describe('GET /realestates', function () {
 
   it('filter by user', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -536,7 +536,7 @@ describe('GET /realestates', function () {
 
   it('non indexed filter', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -564,7 +564,7 @@ describe('GET /realestates', function () {
 
   it('invalid sort key', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -593,7 +593,7 @@ describe('GET /realestates', function () {
 
   it('invalid sort value', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -622,7 +622,7 @@ describe('GET /realestates', function () {
 
   it('invalid count', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -651,7 +651,7 @@ describe('GET /realestates', function () {
 
   it('invalid data', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -675,7 +675,7 @@ describe('GET /realestates', function () {
 
   it('by user0', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -694,7 +694,7 @@ describe('GET /realestates', function () {
         v.user.should.equal(client.users[0].profile.id);
       });
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates'),
+        uri: pot.resolve('apis', '/v/realestates'),
         method: 'GET',
         auth: {
           bearer: client.users[0].token
@@ -725,7 +725,7 @@ describe('GET /realestates', function () {
 
   it('by user0 by user0 permissions', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -765,7 +765,7 @@ describe('GET /realestates', function () {
 
   it('by user0 by public permissions', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[0].token
@@ -805,7 +805,7 @@ describe('GET /realestates', function () {
 
   it('by user1', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'GET',
       auth: {
         bearer: client.users[1].token
@@ -824,7 +824,7 @@ describe('GET /realestates', function () {
         v.user.should.equal(client.users[1].profile.id);
       });
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates'),
+        uri: pot.resolve('apis', '/v/realestates'),
         method: 'GET',
         auth: {
           bearer: client.users[1].token
@@ -859,7 +859,7 @@ describe('GET /realestates', function () {
         return done(err);
       }
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates'),
+        uri: pot.resolve('apis', '/v/realestates'),
         method: 'GET',
         auth: {
           bearer: client.users[2].token
@@ -881,13 +881,13 @@ describe('GET /realestates', function () {
         async.each(b, function (v, ran) {
           should.exist(v.user);
           v.user.should.equal(client.users[2].profile.id);
-          pot.publish('autos', 'realestates', v.id, client.users[2].token, client.admin.token, ran);
+          pot.publish('realestates', v.id, client.users[2].token, client.admin.token, ran);
         }, function (err) {
           if (err) {
             return done(err);
           }
           request({
-            uri: pot.resolve('realestates', '/apis/v/realestates'),
+            uri: pot.resolve('apis', '/v/realestates'),
             method: 'GET',
             auth: {
               bearer: client.users[1].token
@@ -964,7 +964,7 @@ describe('GET /realestates', function () {
         return done(err);
       }
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates'),
+        uri: pot.resolve('apis', '/v/realestates'),
         method: 'GET',
         auth: {
           bearer: client.users[3].token
@@ -989,13 +989,13 @@ describe('GET /realestates', function () {
         async.each(b, function (v, ran) {
           should.exist(v.user);
           v.user.should.equal(client.users[3].profile.id);
-          pot.transit('realestates', 'realestates', v.id, client.users[3].token, 'review', ran);
+          pot.transit('realestates', v.id, client.users[3].token, 'review', ran);
         }, function (err) {
           if (err) {
             return done(err);
           }
           request({
-            uri: pot.resolve('realestates', '/apis/v/realestates'),
+            uri: pot.resolve('apis', '/v/realestates'),
             method: 'GET',
             auth: {
               bearer: client.admin.token

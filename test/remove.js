@@ -40,7 +40,7 @@ describe('DELETE /realestates/:id', function () {
 
   var create = function (user, done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates'),
+      uri: pot.resolve('apis', '/v/realestates'),
       method: 'POST',
       auth: {
         bearer: user.token
@@ -63,7 +63,7 @@ describe('DELETE /realestates/:id', function () {
         id.should.String();
       });
       should.exist(r.headers['location']);
-      r.headers['location'].should.equal(pot.resolve('realestates', '/apis/v/realestates/' + b.id));
+      r.headers['location'].should.equal(pot.resolve('apis', '/v/realestates/' + b.id));
       done(null, b);
     });
   };
@@ -74,7 +74,7 @@ describe('DELETE /realestates/:id', function () {
         return done(err);
       }
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+        uri: pot.resolve('apis', '/v/realestates/' + realEstate.id),
         method: 'DELETE',
         auth: {
           bearer: client.users[1].token
@@ -100,7 +100,7 @@ describe('DELETE /realestates/:id', function () {
         return done(err);
       }
       request({
-        uri: pot.resolve('realestates', '/apis/v/realestates/' + realEstate.id),
+        uri: pot.resolve('apis', '/v/realestates/' + realEstate.id),
         method: 'DELETE',
         auth: {
           bearer: client.users[0].token
@@ -118,7 +118,7 @@ describe('DELETE /realestates/:id', function () {
 
   it('non existing', function (done) {
     request({
-      uri: pot.resolve('realestates', '/apis/v/realestates/59417b1220873e577df88aa2'),
+      uri: pot.resolve('apis', '/v/realestates/59417b1220873e577df88aa2'),
       method: 'DELETE',
       auth: {
         bearer: client.users[0].token

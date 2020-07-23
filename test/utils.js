@@ -3,7 +3,7 @@ var pot = require('pot');
 
 exports.location = function (token, done) {
   request({
-    uri: pot.resolve('accounts', '/apis/v/locations'),
+    uri: pot.resolve('apis', '/v/locations'),
     method: 'POST',
     auth: {
       bearer: token

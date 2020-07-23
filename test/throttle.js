@@ -1,9 +1,9 @@
 var pot = require('pot');
 
-var domain = 'realestates';
+var domain = 'apis';
 var model = 'realestates';
 
-pot.throttlit('realestates', 'realestates', {
+pot.throttlit(domain, 'realestates', {
   apis: {
     bumpup: {
       second: 0,
@@ -23,7 +23,7 @@ pot.throttlit('realestates', 'realestates', {
   bumpup: {
     POST: function (i) {
       return {
-        url: pot.resolve(domain, '/apis/v/' + model + '/dummy'),
+        url: pot.resolve(domain, '/v/' + model + '/dummy'),
         headers: {
           'X-Action': 'bumpup'
         }
